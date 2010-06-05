@@ -6,7 +6,7 @@ Papoose Test OSGi Bundles
 
     <groupId>org.papoose.test.bundles</groupId>
     <artifactId>test-share</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
 ### org.papoose.test.bundles.test-share ###
 
@@ -17,7 +17,7 @@ testing.
 
     <groupId>org.papoose.test.bundles</groupId>
     <artifactId>test-share</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
 ### More Resources ###
 
