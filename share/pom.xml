@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.papoose.test.bundles</groupId>
         <artifactId>papoose-test</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -21,6 +21,7 @@
                 <configuration>
                     <instructions>
                         <Embed-Dependency>test-support-jar;inline=false</Embed-Dependency>
+                        <Import-Package>org.osgi.framework;version="[1,2)"</Import-Package>
                         <Export-Package>org.papoose.test.bundles.share</Export-Package>
                         <Bundle-Activator>org.papoose.test.bundles.share.Activator</Bundle-Activator>
                         <L10N-Bundle>%bundle</L10N-Bundle>

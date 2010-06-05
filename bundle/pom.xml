@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.papoose.test.bundles</groupId>
         <artifactId>papoose-test</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -21,6 +21,7 @@
                 <configuration>
                     <instructions>
                         <Embed-Dependency>test-support-jar;inline=false</Embed-Dependency>
+                        <Import-Package>com.acme.api,org.osgi.framework;version="[1,2)"</Import-Package>
                         <Export-Package>com.acme.api</Export-Package>
                         <Private-Package>com.acme.pub;com.acme.pvt;com.acme.impl;-split-package:=first</Private-Package>
                         <Bundle-Activator>com.acme.impl.Activator</Bundle-Activator>
