@@ -4,11 +4,9 @@ Papoose Test OSGi Bundles
 
 ### org.papoose.test.bundles.test-bundle ###
 
-`
     <groupId>org.papoose.test.bundles</groupId>
     <artifactId>test-share</artifactId>
     <version>1.0-SNAPSHOT</version>
-`
 
 ### org.papoose.test.bundles.test-share ###
 
@@ -17,11 +15,9 @@ This service can be used to share key value pairs between bundles.  This can
 be useful for test bundles that need to share their internal state when
 testing.
 
-`
     <groupId>org.papoose.test.bundles</groupId>
     <artifactId>test-share</artifactId>
     <version>1.0-SNAPSHOT</version>
-`
 
 ### More Resources ###
 
