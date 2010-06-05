@@ -21,6 +21,7 @@
                 <configuration>
                     <instructions>
                         <Embed-Dependency>test-support-jar;inline=false</Embed-Dependency>
+                        <Import-Package>com.acme.api,org.osgi.framework;version="[1,2)"</Import-Package>
                         <Export-Package>com.acme.api</Export-Package>
                         <Private-Package>com.acme.pub;com.acme.pvt;com.acme.impl;-split-package:=first</Private-Package>
                         <Bundle-Activator>com.acme.impl.Activator</Bundle-Activator>
