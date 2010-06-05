@@ -11,7 +11,7 @@ Papoose Test OSGi Bundles
 ### org.papoose.test.bundles.test-share ###
 
 A bundle whose bundle activator registers an instance of the `Share` service.  
-This service can be used to share key value pairs between bundles.  This can
+The service can be used to share key value pairs between bundles.  This can
 be useful for test bundles that need to share their internal state when
 testing.
 
