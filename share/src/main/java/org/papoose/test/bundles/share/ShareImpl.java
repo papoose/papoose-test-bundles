@@ -16,8 +16,10 @@
  */
 package org.papoose.test.bundles.share;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -38,6 +40,7 @@ public class ShareImpl implements ServiceFactory
     private final Map<String, Object> map = new HashMap<String, Object>();
     private final Set<Bundle> bundles = new HashSet<Bundle>();
     private final Map<String, Bundle> bundleKeys = new HashMap<String, Bundle>();
+    private final Map<Bundle, List<ShareListener>> listeners = new HashMap<Bundle, List<ShareListener>>();
 
 
     Object get(String key)
@@ -46,19 +49,22 @@ public class ShareImpl implements ServiceFactory
 
         assert key != null;
 
+        Object value;
         synchronized (lock)
         {
-            Object value = map.get(key);
-
-            LOGGER.exiting(CLASS_NAME, "get", value);
-
-            return value;
+            value = map.get(key);
         }
+
+        for (ShareListener listener : collectListeners()) listener.get(key, value);
+
+        LOGGER.exiting(CLASS_NAME, "get", value);
+
+        return value;
     }
 
     void put(Bundle bundle, String key, Object value)
     {
-        LOGGER.entering(CLASS_NAME, "put", new Object[]{ bundle, key, value });
+        LOGGER.entering(CLASS_NAME, "put", new Object[]{bundle, key, value});
 
         assert bundle != null;
         assert key != null;
@@ -71,12 +77,71 @@ public class ShareImpl implements ServiceFactory
             bundleKeys.put(key, bundle);
         }
 
+        for (ShareListener listener : collectListeners()) listener.put(key, value);
+
         LOGGER.exiting(CLASS_NAME, "put");
+    }
+
+    void clear(Bundle bundle)
+    {
+        LOGGER.entering(CLASS_NAME, "clear", bundle);
+
+        assert bundle != null;
+
+        synchronized (lock)
+        {
+            if (!bundles.contains(bundle)) return;
+
+            map.clear();
+            bundleKeys.clear();
+        }
+
+        for (ShareListener listener : collectListeners()) listener.clear();
+
+        LOGGER.exiting(CLASS_NAME, "clear");
+    }
+
+
+    void addListener(Bundle bundle, ShareListener listener)
+    {
+        LOGGER.entering(CLASS_NAME, "addListener", new Object[]{bundle, listener});
+
+        assert bundle != null;
+
+        synchronized (lock)
+        {
+            if (!bundles.contains(bundle)) return;
+
+            List<ShareListener> list = listeners.get(bundle);
+            if (list == null) listeners.put(bundle, list = new ArrayList<ShareListener>(1));
+            list.add(listener);
+        }
+
+        LOGGER.exiting(CLASS_NAME, "addListener");
+    }
+
+    void removeListener(Bundle bundle, ShareListener listener)
+    {
+        LOGGER.entering(CLASS_NAME, "removeListener", new Object[]{bundle, listener});
+
+        assert bundle != null;
+
+        synchronized (lock)
+        {
+            if (!bundles.contains(bundle)) return;
+
+            List<ShareListener> list = listeners.get(bundle);
+            if (list == null) return;
+            list.remove(listener);
+            if (list.isEmpty()) listeners.remove(bundle);
+        }
+
+        LOGGER.exiting(CLASS_NAME, "removeListener");
     }
 
     public Object getService(Bundle bundle, ServiceRegistration registration)
     {
-        LOGGER.entering(CLASS_NAME, "getService", new Object[]{ bundle, registration });
+        LOGGER.entering(CLASS_NAME, "getService", new Object[]{bundle, registration});
 
         assert bundle != null;
 
@@ -93,7 +158,7 @@ public class ShareImpl implements ServiceFactory
 
     public void ungetService(Bundle bundle, ServiceRegistration registration, Object service)
     {
-        LOGGER.entering(CLASS_NAME, "ungetService", new Object[]{ bundle, registration, service });
+        LOGGER.entering(CLASS_NAME, "ungetService", new Object[]{bundle, registration, service});
 
         assert bundle != null;
         assert service != null;
@@ -101,6 +166,7 @@ public class ShareImpl implements ServiceFactory
         synchronized (lock)
         {
             bundles.remove(bundle);
+            listeners.remove(bundle);
 
             Set<String> keys = new HashSet<String>();
             for (Map.Entry<String, Bundle> entry : bundleKeys.entrySet())
@@ -116,5 +182,18 @@ public class ShareImpl implements ServiceFactory
         }
 
         LOGGER.exiting(CLASS_NAME, "ungetService");
+    }
+
+    private List<ShareListener> collectListeners()
+    {
+        LOGGER.entering(CLASS_NAME, "collectListeners");
+
+        List<ShareListener> list = new ArrayList<ShareListener>();
+
+        for (List<ShareListener> l : listeners.values()) list.addAll(l);
+
+        LOGGER.exiting(CLASS_NAME, "collectListeners", list);
+
+        return list;
     }
 }

@@ -16,18 +16,17 @@
  */
 package org.papoose.test.bundles.share;
 
+import java.util.logging.Logger;
+
+
 /**
  * @version $Revision: $ $Date: $
  */
-public interface Share
+public interface ShareListener
 {
-    Object get(String key);
+    void get(String key, Object value);
 
     void put(String key, Object value);
 
     void clear();
-
-    void addListener(ShareListener listener);
-
-    void removeListener(ShareListener listener);
 }

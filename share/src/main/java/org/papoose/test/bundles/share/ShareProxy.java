@@ -55,12 +55,43 @@ public class ShareProxy implements Share
 
     public void put(String key, Object value)
     {
-        LOGGER.entering(CLASS_NAME, "get", new Object[]{ key, value });
+        LOGGER.entering(CLASS_NAME, "get", new Object[]{key, value});
 
         if (key == null) throw new IllegalArgumentException("Key cannot be null");
 
         share.put(bundle, key, value);
 
         LOGGER.exiting(CLASS_NAME, "get");
+    }
+
+    public void clear()
+    {
+        LOGGER.entering(CLASS_NAME, "clear");
+
+        share.clear(bundle);
+
+        LOGGER.exiting(CLASS_NAME, "clear");
+    }
+
+    public void addListener(ShareListener listener)
+    {
+        LOGGER.entering(CLASS_NAME, "addListener", listener);
+
+        if (listener == null) throw new IllegalArgumentException("Listener cannot be null");
+
+        share.addListener(bundle, listener);
+
+        LOGGER.exiting(CLASS_NAME, "addListener");
+    }
+
+    public void removeListener(ShareListener listener)
+    {
+        LOGGER.entering(CLASS_NAME, "removeListener", listener);
+
+        if (listener == null) throw new IllegalArgumentException("Listener cannot be null");
+
+        share.removeListener(bundle, listener);
+
+        LOGGER.exiting(CLASS_NAME, "removeListener");
     }
 }
