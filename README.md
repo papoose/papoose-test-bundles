@@ -23,4 +23,4 @@ testing.
 
 *  Discuss Papoose at [http://groups.google.com/group/papoose-r4](http://groups.google.com/group/papoose-r4)
 *  Learn even more at [http://www.papoose-r4.org](http://www.papoose-r4.org)
-*  Check out code at [http://github.com/maguro/papoose-test-bundles](http://github.com/maguro/papoose-test-bundles)
+*  Check out code at [http://github.com/papoose/papoose-test-bundles](http://github.com/papoose/papoose-test-bundles)
